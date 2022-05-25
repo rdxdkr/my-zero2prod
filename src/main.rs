@@ -1,4 +1,4 @@
-use actix_web::{web, App, HttpRequest, HttpServer, Responder};
+use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer, Responder};
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
@@ -6,10 +6,15 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .route("/", web::get().to(greet))
             .route("/{name}", web::get().to(greet))
+            .route("/health_check", web::get().to(health_check))
     })
     .bind("127.0.0.1:8000")?
     .run()
     .await
+}
+
+async fn health_check() -> impl Responder {
+    HttpResponse::Ok()
 }
 
 async fn greet(req: HttpRequest) -> impl Responder {
