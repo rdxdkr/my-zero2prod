@@ -10,4 +10,6 @@ This repo hosts the code I'm writing while following the amazing [Zero to Produc
 
 **Chapter 3: Done**
 
-Chapter 4: Started
+**Chapter 4: Done**
+
+Chapter 5: Started
