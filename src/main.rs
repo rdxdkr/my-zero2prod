@@ -4,7 +4,7 @@ use my_zero2prod::{
     telemetry::{get_subscriber, init_subscriber},
 };
 use secrecy::ExposeSecret;
-use sqlx::{postgres::PgPoolOptions};
+use sqlx::postgres::PgPoolOptions;
 use std::net::TcpListener;
 
 #[tokio::main]
