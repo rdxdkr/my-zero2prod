@@ -1,4 +1,6 @@
+use config::ConfigError;
 use secrecy::{ExposeSecret, Secret};
+use std::str::FromStr;
 
 #[derive(serde::Deserialize)]
 pub struct Settings {
@@ -60,7 +62,14 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
         config::File::from(configuration_directory.join(environment.as_str())).required(true),
     )?;
 
-    settings.try_into()
+    let mut settings: Settings = settings.try_into()?;
+
+    settings.application.port = std::env::var("PORT")
+        .as_deref()
+        .map(u16::from_str)
+        .unwrap_or_else(|_| Ok(8000))
+        .map_err(|e| ConfigError::Foreign(Box::new(e)))?;
+    Ok(settings)
 }
 
 pub enum Environment {
