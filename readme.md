@@ -14,4 +14,6 @@ This repo hosts the code I'm writing while following the amazing [Zero to Produc
 
 **Chapter 5: Done**
 
-Chapter 6: Started
+**Chapter 6: Done**
+
+Chapter 7: Started
