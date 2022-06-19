@@ -25,11 +25,18 @@ mod tests {
     use claim::assert_err;
     use fake::{faker::internet::en::SafeEmail, Fake};
 
-    #[test]
-    fn valid_emails_are_parsed_successfully() {
-        let email = SafeEmail().fake();
+    #[derive(Debug, Clone)]
+    struct ValidEmailFixture(pub String);
 
-        claim::assert_ok!(SubscriberEmail::parse(email));
+    impl quickcheck::Arbitrary for ValidEmailFixture {
+        fn arbitrary<G: quickcheck::Gen>(g: &mut G) -> Self {
+            Self(SafeEmail().fake_with_rng(g))
+        }
+    }
+
+    #[quickcheck_macros::quickcheck]
+    fn valid_emails_are_parsed_successfully(valid_email: ValidEmailFixture) -> bool {
+        SubscriberEmail::parse(valid_email.0).is_ok()
     }
 
     #[test]
