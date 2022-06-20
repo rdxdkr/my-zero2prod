@@ -2,6 +2,7 @@
 mod tests {
     use my_zero2prod::{
         configuration::{get_configuration, DatabaseSettings},
+        email_client::EmailClient,
         startup::run,
         telemetry::{get_subscriber, init_subscriber},
     };
@@ -150,7 +151,13 @@ mod tests {
         configuration.database.database_name = Uuid::new_v4().to_string();
 
         let connection_pool = configure_database(&configuration.database).await;
-        let server = run(listener, connection_pool.clone()).expect("Failed to bind address");
+        let sender_email = configuration
+            .email_client
+            .sender()
+            .expect("Invalid sender email address.");
+        let email_client = EmailClient::new(configuration.email_client.base_url, sender_email);
+        let server =
+            run(listener, connection_pool.clone(), email_client).expect("Failed to bind address");
         let _ = tokio::spawn(server);
 
         TestApp {
