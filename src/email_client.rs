@@ -25,11 +25,9 @@ impl EmailClient {
         base_url: String,
         sender: SubscriberEmail,
         authorization_token: Secret<String>,
+        timeout: Duration,
     ) -> Self {
-        let http_client = Client::builder()
-            .timeout(Duration::from_secs(10))
-            .build()
-            .unwrap();
+        let http_client = Client::builder().timeout(timeout).build().unwrap();
 
         Self {
             http_client,
@@ -81,6 +79,7 @@ mod tests {
         Fake, Faker,
     };
     use secrecy::Secret;
+    use std::time::Duration;
     use wiremock::{
         matchers::{any, header, header_exists, method, path},
         Mock, MockServer, Request, ResponseTemplate,
@@ -206,6 +205,11 @@ mod tests {
     }
 
     fn email_client(base_url: String) -> EmailClient {
-        EmailClient::new(base_url, email(), Secret::new(Faker.fake()))
+        EmailClient::new(
+            base_url,
+            email(),
+            Secret::new(Faker.fake()),
+            Duration::from_millis(200),
+        )
     }
 }
