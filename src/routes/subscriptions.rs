@@ -24,7 +24,7 @@ impl TryFrom<FormData> for NewSubscriber {
         let name = SubscriberName::parse(value.name)?;
         let email = SubscriberEmail::parse(value.email)?;
 
-        Ok(NewSubscriber { email, name })
+        Ok(Self { email, name })
     }
 }
 
