@@ -18,4 +18,6 @@ This repo hosts the code I'm writing while following the amazing [Zero to Produc
 
 **Chapter 7: Done**
 
-Chapter 8: Started
+**Chapter 8: Done**
+
+Chapter 9: Started
