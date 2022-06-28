@@ -5,6 +5,7 @@ use my_zero2prod::{
     telemetry::{get_subscriber, init_subscriber},
 };
 use once_cell::sync::Lazy;
+use reqwest::redirect::Policy;
 use sqlx::{Connection, Executor, PgConnection, PgPool};
 use uuid::Uuid;
 use wiremock::MockServer;
@@ -80,7 +81,10 @@ impl TestApp {
     where
         Body: serde::Serialize,
     {
-        reqwest::Client::new()
+        reqwest::Client::builder()
+            .redirect(Policy::none())
+            .build()
+            .unwrap()
             .post(&format!("{}/login", &self.address))
             .form(body)
             .send()
