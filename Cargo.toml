@@ -39,7 +39,6 @@ tracing-actix-web = "0.5"
 serde-aux = "3"
 unicode-segmentation = "1"
 validator = "0.14"
-reqwest = { version = "0.11", default-features = false, features = ["json", "rustls-tls"] }
 rand = { version = "0.8", features=["std_rng"] }
 thiserror = "1"
 anyhow = "1"
@@ -63,3 +62,8 @@ features = [
     "migrate",
     "offline"
 ]
+
+[dependencies.reqwest]
+version = "0.11"
+default-features = false
+features = ["json", "rustls-tls", "cookies"]
