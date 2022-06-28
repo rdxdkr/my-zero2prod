@@ -22,4 +22,10 @@ async fn an_error_flash_message_is_set_on_failure() {
 
     // assert 2
     assert!(html_page.contains(r#"<p><i>Authentication failed</i></p>"#));
+
+    // act 3
+    let html_page = app.get_login_html().await;
+
+    // assert 3
+    assert!(!html_page.contains(r#"<p><i>Authentication failed</i></p>"#));
 }
