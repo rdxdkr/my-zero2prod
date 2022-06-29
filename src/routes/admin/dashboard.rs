@@ -1,4 +1,4 @@
-use crate::session_state::TypedSession;
+use crate::{session_state::TypedSession, utils::e500};
 use actix_web::{
     http::header::{ContentType, LOCATION},
     web, HttpResponse,
@@ -33,13 +33,6 @@ pub async fn admin_dashboard(
             </body>
             </html>"#
         )))
-}
-
-fn e500<T>(e: T) -> actix_web::Error
-where
-    T: std::fmt::Debug + std::fmt::Display + 'static,
-{
-    actix_web::error::ErrorInternalServerError(e)
 }
 
 #[tracing::instrument(name = "Get username", skip(pool))]
